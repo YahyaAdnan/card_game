@@ -20,8 +20,8 @@ The project is organized into folders and files to make it easier to manage and 
 
    - Manages database setup and connection.
    - **Files**:
-     - `migrations/`: Likely contains scripts to create and update database tables.
-     - `seeders/`: For populating the database with initial data (e.g., cards, test players).
+     - `migrations/`: contains scripts to create and update database tables.
+     - `seeders/`: For populating the database with initial data (e.g., cards).
      - `db_connection.php`: Establishes a database connection.
      - `setup_db.php`: Sets up the database, creating tables and initializing data.
    - **Purpose**: Organizes database-related operations for clarity.
@@ -34,11 +34,6 @@ The project is organized into folders and files to make it easier to manage and 
      - `Player.php`: Handles properties and logic related to players.
      - `Round.php`: Handles properties and logic related to rounds.
    - **Purpose**: Encapsulates data and related logic for easy maintenance.
-
-4. **`services/`**
-
-   - Reserved for shared functionality or utilities that can be reused.
-   - **Purpose**: Centralizes reusable logic for the app.
 
 5. **`views/`**
 
@@ -58,7 +53,11 @@ The project is organized into folders and files to make it easier to manage and 
    - `composer.json` and `composer.lock`: Define and lock the PHP dependencies.
    - `autoload.php`: Handles class and dependency autoloading.
    - `Model.php`: Likely a base model class for shared logic among models.
-
+   - 
+8. **index.php**
+   
+   - Serves as the main routing file for the project, directing incoming requests to the appropriate controllers or views.
+     
 #### **Setup Requirements**
 
 To run the application:
@@ -99,6 +98,10 @@ This organization can easily support additional features. For example:
 3. **Improved Card Logic**:
 
    - Add a service in the `services/` folder for card shuffling or advanced distribution logic.
+  
+4. **History of Previous Games or Rounds:**:
+
+   - Add functionality in the services/ folder to retrieve and display historical data of previous games or rounds for user reference with filtering and detailed index.
 
 #### **Conclusion**
 
