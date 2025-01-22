@@ -1,8 +1,10 @@
 <?php
 
 include __DIR__ . '/../database/db_connection.php';
+require_once __DIR__ . '/../vendor/Model.php';
 
-class Card {
+class Card extends Model 
+{
     
     public $id;
     public $code;
@@ -54,16 +56,5 @@ class Card {
         return $cards;
     }
 
-    public function setAttributes($attributes) 
-    {
-        foreach ($attributes as $key => $value) 
-        {
-            if (property_exists($this, $key)) 
-            {
-                $this->$key = $value;
-            }
-        }
-        return $this;
-    }
 }
 ?>

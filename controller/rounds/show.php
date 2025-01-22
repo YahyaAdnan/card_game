@@ -6,7 +6,7 @@ function showTable($round)
 {   
     // Start table
     echo '<table class="table table-striped mt-4">';
-    echo '<thead class="table-dark">';
+    echo '<thead class="table">';
     echo '<tr>';
     echo '<th scope="col">Player</th>';
     echo '<th scope="col">Cards</th>';

@@ -1,9 +1,10 @@
 <?php
 
 include __DIR__ . '/../database/db_connection.php';
+require_once __DIR__ . '/../vendor/Model.php';
 
-class Round {
-
+class Round extends Model 
+{
     public $id;
     public $created_at;
     private $db;
@@ -17,29 +18,35 @@ class Round {
             $query = "SELECT * FROM rounds WHERE id = '$id'";
             $result = $this->db->query($query);
 
-            if ($result && $row = $result->fetch_assoc()) {
+            if ($result && $row = $result->fetch_assoc()) 
+            {
                 $this->setAttributes($row);
-            } else {
+            } 
+            else 
+            {
                 throw new Exception("Round with ID $id not found");
             }
         }
     }
 
-    static public function all($dbConnection) 
+    static public function all() 
     {
-        $query = "SELECT * FROM cards";
-        $result = $dbConnection->query($query);
+        global $db;
 
-        $cards = [];
+        $query = "SELECT * FROM rounds";
+        $result = $dbs->query($query);
+    
+        $rounds = [];
         if ($result) 
         {
             while ($row = $result->fetch_assoc()) 
             {
-                $cards[] = (new self($dbConnection))->setAttributes($row);
+                $rounds[] = (new self())->setAttributes($row);
             }
         }
-        return $cards;
+        return $rounds;
     }
+    
 
     public function save() {
 
@@ -91,13 +98,5 @@ class Round {
         }
     }
 
-    public function setAttributes($attributes) {
-        foreach ($attributes as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->$key = $value;
-            }
-        }
-        return $this;
-    }
 }
 ?>

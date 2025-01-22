@@ -1,8 +1,10 @@
 <?php
 
 include __DIR__ . '/../database/db_connection.php';
+require_once __DIR__ . '/../vendor/Model.php';
 
-class Player {
+class Player extends Model 
+{
 
     public $id;
     public $player_num;
@@ -26,10 +28,8 @@ class Player {
         }
     }
 
-    // Save a new player or update an existing one
     public function save()
     {
-
         // Insert new player
         $query = "INSERT INTO players (player_num, round_id) VALUES ('$this->player_num', '$this->round_id')";
         $this->db->query($query);
@@ -48,29 +48,6 @@ class Player {
         }
 
         return $this;
-    }
-
-    public function setAttributes($attributes) {
-        foreach ($attributes as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->$key = $value;
-            }
-        }
-        return $this;
-    }
-
-    public function round() {
-        $query = "SELECT * FROM rounds WHERE id = '$this->round_id'";
-        $result = $this->db->query($query);
-
-        if ($result && $row = $result->fetch_assoc()) 
-        {
-            $round = new Round();
-            $round->setAttributes($row);
-            return $round;
-        }
-
-        return null;
     }
 
     public function cards() 
@@ -94,10 +71,12 @@ class Player {
         return $cards;
     }
 
-    public function addCard($cardId) {
+    public function addCard($cardId) 
+    {
         $query = "INSERT INTO player_cards (player_id, card_id) VALUES ($this->id, $cardId)";
         $this->db->query($query);
-        if ($this->db->affected_rows <= 0) {
+        if ($this->db->affected_rows <= 0) 
+        {
             throw new Exception("Failed to add card to player");
         }
         return true;
