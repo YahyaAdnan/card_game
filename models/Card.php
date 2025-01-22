@@ -8,6 +8,7 @@ class Card {
     public $code;
     public $suit;
     public $rank;
+    private $db;
 
     public function __construct($id = null)
     {
@@ -29,7 +30,7 @@ class Card {
 
     static public function all() 
     {
-        global $db; 
+        global $db;
 
         $query = "SELECT * FROM cards";
         $result = $db->query($query);
@@ -39,15 +40,16 @@ class Card {
         {
             while ($row = $result->fetch_assoc()) 
             {
-                $cards[] = (new self($db))->setAttributes($row);
+                $cards[] = (new self())->setAttributes($row);
             }
         }
+
         return $cards;
     }
 
-    static public function shuffledCards($db) 
+    static public function shuffledCards() 
     {
-        $cards = self::all($db);
+        $cards = self::all();
         shuffle($cards);
         return $cards;
     }

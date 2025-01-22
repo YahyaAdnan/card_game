@@ -77,6 +77,19 @@ class Round {
         return $players;
     }
 
+    public function addPlayer($player_num) 
+    {
+        try {
+            $player = new Player();
+            $player->player_num = $player_num;
+            $player->round_id = $this->id;
+            $player->save();
+            return $player;
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
+
     public function setAttributes($attributes) {
         foreach ($attributes as $key => $value) {
             if (property_exists($this, $key)) {

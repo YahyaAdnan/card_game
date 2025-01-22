@@ -5,8 +5,8 @@ include __DIR__ . '/../database/db_connection.php';
 class Player {
 
     public $id;
-    public $name;
-    public $match_id;
+    public $player_num;
+    public $round_id;
     private $db;
 
     public function __construct($id = null) {
@@ -27,26 +27,24 @@ class Player {
     }
 
     // Save a new player or update an existing one
-    public function save() {
-        if ($this->id) {
-            // Update existing player
-            $query = "UPDATE players SET name = '$this->name', match_id = '$this->match_id' WHERE id = $this->id";
-            $this->db->query($query);
+    public function save()
+    {
 
-            if ($this->db->affected_rows <= 0) {
-                throw new Exception("Failed to update player");
-            }
-        } else {
-            // Insert new player
-            $query = "INSERT INTO players (name, match_id) VALUES ('$this->name', '$this->match_id')";
-            $this->db->query($query);
+        // Insert new player
+        $query = "INSERT INTO players (player_num, round_id) VALUES ('$this->player_num', '$this->round_id')";
+        $this->db->query($query);
 
-            if ($this->db->affected_rows <= 0) {
-                throw new Exception("Failed to create player");
-            }
+        if ($this->db->affected_rows <= 0) {
+            throw new Exception("Failed to create player");
+        }
 
-            // Fetch the newly created player ID
-            $this->id = $this->db->insert_id;
+        $this->id = $this->db->insert_id;
+        $query = "SELECT * FROM players WHERE id = '$this->id'";
+        $result = $this->db->query($query);
+
+        if ($result && $row = $result->fetch_assoc()) 
+        {
+            $this->setAttributes($row);
         }
 
         return $this;
@@ -62,7 +60,7 @@ class Player {
     }
 
     public function round() {
-        $query = "SELECT * FROM rounds WHERE id = '$this->match_id'";
+        $query = "SELECT * FROM rounds WHERE id = '$this->round_id'";
         $result = $this->db->query($query);
 
         if ($result && $row = $result->fetch_assoc()) 
@@ -95,14 +93,12 @@ class Player {
         return $cards;
     }
 
-    public function addCard($cardId, $matchId) {
-        $query = "INSERT INTO player_cards (player_id, card_id, match_id) VALUES ($this->id, $cardId, '$matchId')";
+    public function addCard($cardId) {
+        $query = "INSERT INTO player_cards (player_id, card_id) VALUES ($this->id, $cardId)";
         $this->db->query($query);
-    
         if ($this->db->affected_rows <= 0) {
             throw new Exception("Failed to add card to player");
         }
-        
         return true;
     }    
 
