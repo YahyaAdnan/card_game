@@ -37,7 +37,7 @@ function dispatch()
 
 // our  the index view
 route('', function () {
-    include 'views/index.php';
+    include 'views/main.php';
 });
 
 // Dispatch the request
