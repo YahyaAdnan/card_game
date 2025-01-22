@@ -3,8 +3,10 @@
 require_once __DIR__ . '/../../models/Card.php';
 require_once __DIR__ . '/../../models/Player.php';
 require_once __DIR__ . '/../../models/Round.php';
+require_once __DIR__ . '/show.php'; 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST')
+{
     $people_num = $_POST['people_num']; 
     $cards_in_hand = $people_num <= 13 ? 4 : 1; 
 
@@ -25,7 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-} else {
+
+    showTable($round);
+    exit();
 }
 
+http_response_code(400);
+echo json_encode(["error" => "Invalid request"]);
 ?>

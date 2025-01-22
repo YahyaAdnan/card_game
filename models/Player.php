@@ -65,7 +65,7 @@ class Player {
 
         if ($result && $row = $result->fetch_assoc()) 
         {
-            $round = new Round($this->db);
+            $round = new Round();
             $round->setAttributes($row);
             return $round;
         }
@@ -73,7 +73,8 @@ class Player {
         return null;
     }
 
-    public function cards() {
+    public function cards() 
+    {
         $query = "
             SELECT c.* FROM player_cards pc
             JOIN cards c ON pc.card_id = c.id
@@ -84,7 +85,7 @@ class Player {
         $cards = [];
         if ($result) {
             while ($row = $result->fetch_assoc()) {
-                $card = new Card($this->db);
+                $card = new Card();
                 $card->setAttributes($row);
                 $cards[] = $card;
             }

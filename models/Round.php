@@ -62,14 +62,15 @@ class Round {
         return $this;
     }
 
-    public function players() {
-        $query = "SELECT * FROM players WHERE match_id = '$this->id'";
+    public function players() 
+    {
+        $query = "SELECT * FROM players WHERE round_id = '$this->id'";
         $result = $this->db->query($query);
 
         $players = [];
         if ($result) {
             while ($row = $result->fetch_assoc()) {
-                $player = new Player($this->db, $row['id']);
+                $player = new Player($row['id']);
                 $players[] = $player;
             }
         }
