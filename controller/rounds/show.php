@@ -14,7 +14,7 @@ function showTable($round)
     echo '</thead>';
     echo '<tbody>';
 
-    // Populate table rows with round data
+    //  table rows with round data
     foreach ($round->players() as $player) 
     {
         echo '<tr>';

@@ -13,6 +13,7 @@ try
     $db->query("CREATE DATABASE IF NOT EXISTS $dbname");
     $db->query("USE $dbname");
 
+    // Include migration scripts for creating tables
     echo "Running migrations...\n";
     createCardsTable($db);
     createRoundsTable($db);

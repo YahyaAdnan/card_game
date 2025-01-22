@@ -12,6 +12,7 @@
         <h1 class="text-center mb-5">Cards Game</h1>
         <div class="card">
             <div class="card-body">
+                <!-- form for entering the number of players. -->
                 <form id="cardForm" class="row g-3">
                     <div class="col-md-12">
                         <label for="people_num" class="form-label">Enter the number of people:</label>
@@ -23,18 +24,22 @@
                 </form>
             </div>
         </div>
+        <!-- Div to display the result or error messages after form submission. -->
         <div id="result" class="mt-4"></div>
     </div>
     <script>
         $(document).ready(function () {
+            // handling form submission event
             $('#cardForm').on('submit', function (event) {
                 event.preventDefault();
 
+                // Validate the input: check if it's not empty and greater than 0
                 if (!$('#people_num').val() || $('#people_num').val() <= 0) {
                     $('#result').html('<div class="alert alert-danger">Input value does not exist or value is invalid</div>');
-                    return; 
+                    return;  // Exit the function early
                 }
                 
+                // Make an AJAX POST request to distribute the cards
                 $.ajax({
                     url: 'controller/rounds/create.php',
                     method: 'POST',

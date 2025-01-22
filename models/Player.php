@@ -5,18 +5,26 @@ require_once __DIR__ . '/../vendor/Model.php';
 
 class Player extends Model 
 {
-
+    // Public properties representing Player attributes
     public $id;
     public $player_num;
     public $round_id;
+
+    // Private property for the database connection
     private $db;
 
+    /**
+     * Constructor method to initialize a Player object.
+     *
+     * @param int|null $id The ID of the player to load. If null, creates a new Player instance without loading from the database.
+     * @throws Exception If a player with the provided ID is not found in the database.
+     */
     public function __construct($id = null) {
         global $db; 
         $this->db = $db;
         
+        // If ID provided => load the card from db if found, otherwise, throw an exception 
         if ($id) {
-            // Fetch player details based on ID
             $query = "SELECT * FROM players WHERE id = '$id'";
             $result = $this->db->query($query);
 
@@ -28,6 +36,13 @@ class Player extends Model
         }
     }
 
+
+    /**
+     * Saves the Player object to the database.
+     *
+     * @return $this The Player object with updated attributes.
+     * @throws Exception If the player could not be created in the database.
+     */
     public function save()
     {
         // Insert new player
@@ -38,10 +53,12 @@ class Player extends Model
             throw new Exception("Failed to create player");
         }
 
+        // get the player's ID to the newly inserted ID, then return from db
         $this->id = $this->db->insert_id;
         $query = "SELECT * FROM players WHERE id = '$this->id'";
         $result = $this->db->query($query);
 
+        // If the player is found, set its attributes
         if ($result && $row = $result->fetch_assoc()) 
         {
             $this->setAttributes($row);
@@ -50,6 +67,11 @@ class Player extends Model
         return $this;
     }
 
+    /**
+     * Retrieves all cards assigned to the player.
+     *
+     * @return array An array of Card objects associated with the player.
+     */
     public function cards() 
     {
         $query = "
@@ -60,6 +82,7 @@ class Player extends Model
         $result = $this->db->query($query);
 
         $cards = [];
+        // If query succeful, create Card objects for each attached card
         if ($result) {
             while ($row = $result->fetch_assoc()) {
                 $card = new Card();
@@ -71,6 +94,13 @@ class Player extends Model
         return $cards;
     }
 
+    /**
+     * Adds a card to the player's hand.
+     *
+     * @param int $cardId The ID of the card to add to the player.
+     * @return bool True if the card was successfully added.
+     * @throws Exception If the card could not be added to the player.
+     */
     public function addCard($cardId) 
     {
         $query = "INSERT INTO player_cards (player_id, card_id) VALUES ($this->id, $cardId)";

@@ -2,12 +2,22 @@
 
 $routes = [];
 
+/**
+ * Defines a new route by associating a path with a callback function.
+ *
+ * @param string   $path     The URL path for the route.
+ * @param callable $callback The function to execute when the route is accessed.
+ */
 function route($path, $callback)
 {
     global $routes;
     $routes[$path] = $callback; 
 }
 
+/**
+ * Dispatches the incoming request to the appropriate route callback.
+ * If the route does not exist, a 404 error is returned.
+ */
 function dispatch()
 {
     global $routes;
@@ -25,15 +35,10 @@ function dispatch()
     }
 }
 
-// Define your routes
+// our  the index view
 route('', function () {
     include 'views/index.php';
 });
-
-route('rounds', function () {
-    include 'views/rounds.php';
-});
-
 
 // Dispatch the request
 dispatch();

@@ -7,13 +7,18 @@ require_once __DIR__ . '/show.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+    // Get the people_num from the POST data, then we define cards in hand.
     $people_num = $_POST['people_num']; 
     $cards_in_hand = $people_num <= 13 ? 4 : 1; 
 
+    // create ROUND.
     $round = new Round();
     $round->save();
+
+    // Get a shuffled  cards
     $cards = Card::shuffledCards();
 
+    //loop each player => create player, take the top card(s) from the deck 
     for ($i = 1; $i <= $people_num; $i++) 
     {
         $player = $round->addPlayer($i);
@@ -27,7 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             }
         }
     }
-
+    
+    // Display the game table
     showTable($round);
     exit();
 }
