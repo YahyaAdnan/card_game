@@ -36,7 +36,7 @@
                 }
                 
                 $.ajax({
-                    url: 'controller/process.php',
+                    url: 'controller/rounds/create.php',
                     method: 'POST',
                     data: { people_num: $('#people_num').val()  },
                     success: function (response) {

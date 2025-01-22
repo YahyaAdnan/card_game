@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Load .env variables
 if (!file_exists(dirname(__DIR__) . '/.env'))
@@ -20,7 +20,11 @@ $username = $_ENV['DB_USERNAME'];
 $password = $_ENV['DB_PASSWORD'];
 
 // Connect to MySQL
-$db = new mysqli($host, $username, $password, $dbname);
+try {
+    $db = new mysqli($host, $username, $password, $dbname);
+} catch (\Throwable $th) {
+    $db = new mysqli($host, $username, $password);
+}
 
 if ($db->connect_error) 
 {

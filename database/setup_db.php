@@ -3,6 +3,7 @@ include 'db_connection.php';
 
 try 
 {
+    echo $dbname;
     // Run migrations
     require_once 'migrations/create_cards_table.php';
     require_once 'migrations/create_rounds_table.php';

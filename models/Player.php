@@ -1,8 +1,6 @@
 <?php
 
-namespace Models;
-
-include 'db_connection.php';
+include __DIR__ . '/../database/db_connection.php';
 
 class Player {
 

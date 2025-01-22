@@ -1,8 +1,6 @@
 <?php
 
-namespace Models;
-
-include 'db_connection.php';
+include __DIR__ . '/../database/db_connection.php';
 
 class Card {
     
@@ -29,8 +27,10 @@ class Card {
         }
     }
 
-    static public function all($db) 
+    static public function all() 
     {
+        global $db; 
+
         $query = "SELECT * FROM cards";
         $result = $db->query($query);
 
